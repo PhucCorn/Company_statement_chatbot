@@ -1,28 +1,59 @@
 from telethon import TelegramClient, events
 from dotenv import load_dotenv
 import os
+from pymongo import MongoClient
+import datetime
+from pipeline import AIAssistant
 
 load_dotenv()
-# Thông tin cần thiết
-api_id = os.getenv('API_ID')      # Thay thế bằng API ID của bạn
-api_hash =  os.getenv('API_HASH')  # Thay thế bằng API Hash của bạn
-bot_token = os.getenv('BOT_TOKEN') # Thay thế bằng API Token của bạn
+api_id = os.getenv('API_ID')      
+api_hash =  os.getenv('API_HASH') 
+bot_token = os.getenv('BOT_TOKEN')
+text_gen = AIAssistant()
+dbclient = MongoClient('mongodb://localhost:27017/')
+db = dbclient['chat_database']
+client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 
-# Tạo một client cho bot
-client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token) 
+def update_conversations(session_id, note, time):
+    conversations_collection = db["conversations"]
+    data = {
+        "session_id": session_id,
+        'note': note,
+        "last_access": time
+    }
+    conversations_collection.update_one(
+        {"session_id": session_id}, 
+        {"$set": data},  
+        upsert=True  
+    )
+    return
 
-# Đăng ký sự kiện để nhận tin nhắn mới
+def insert_messages(session_id, question, answer, time):
+    messages_collection = db['messages']
+    data = {
+        'session_id': session_id,
+        'message': [
+            {'user_input': question, 'model_response': answer},
+        ],
+        'timestamp': time
+    }
+    messages_collection.insert_one(data)
+    return
+
 @client.on(events.NewMessage)
 async def handle_new_message(event):
+    #Collect information from message
     sender = await event.get_sender()
-    sender_name = sender.first_name if sender else 'người dùng vô danh'
+    time = datetime.datetime.now()
     message = event.message.message
-
-    print(f'Nhận tin nhắn từ {sender_name}: {message}')
-
-    # Trả lời tin nhắn
-    # await event.respond(f'Xin chào {sender_name}, bạn đã gửi: {message}')
-    await event.respond("Sứ mệnh của chúng tôi là đồng hành đem lại sự thịnh vượng cho khách hàng thông qua các giải pháp bao bì, đóng gói tiên tiến và hiệu quả, không chỉ giúp bảo vệ an toàn sản phẩm, đem lại sự thuận tiện trong bốc xếp, vận chuyển, lưu kho, mà còn hỗ trợ đắc lực khách hàng nâng tầm hình ảnh thương hiệu.")
+    session_id = sender.username
+    #Gen the answer
+    print(f'Nhận tin nhắn từ {session_id}: {message}')
+    answer = text_gen.invoke(message, session_id)
+    await event.respond(answer)
+    #Update log and database
+    update_conversations(session_id, "", time)
+    
 
 
 # Chạy client
