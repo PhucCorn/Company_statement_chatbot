@@ -1,18 +1,19 @@
 from pymongo import MongoClient
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import (
-    AIMessage,
     HumanMessage,
-    SystemMessage,
     trim_messages,
 )
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain.document_loaders import TextLoader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
 from operator import itemgetter
 from util import *
-from langchain_core.runnables import RunnableLambda
 
 class AIAssistant:
     def __init__(self):
@@ -21,7 +22,7 @@ class AIAssistant:
         
     def llm_memory(self):
         trimmer = trim_messages(
-            max_tokens=54,
+            max_tokens=500,
             strategy="last",
             token_counter=self.model,
             include_system=True,
@@ -48,6 +49,16 @@ class AIAssistant:
             ]
         )
         return prompt
+    
+    def docs_gen(self, question):
+        documents = TextLoader("BBAS.txt", encoding = 'UTF-8').load()
+        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        texts = text_splitter.split_documents(documents)
+        embeddings = OpenAIEmbeddings()
+        vectorstore = Chroma.from_documents(texts, embeddings)
+        retriever = vectorstore.as_retriever()
+        docs = retriever.invoke(question)
+        return "\n\n".join(doc.page_content for doc in docs)
 
     def invoke(self, question: str, session_id: str) -> str:
         config = {"configurable": {"session_id": session_id}}
@@ -59,18 +70,16 @@ class AIAssistant:
             | self.model
             | self.parser
         )
-        history = get_session_history_mongodb(session_id)
-        for message in history.messages:
-            print(f"{message.type}: {message.content}")
         with_message_history = RunnableWithMessageHistory(
             chain,
             get_session_history_mongodb,
             input_messages_key="question", #Which key is user's input
         )
+        docs = self.docs_gen(question)
         result = with_message_history.invoke(
             {
                 "question": [HumanMessage(content=question)],
-                "doc": """Doanh nghiệp này tên là Bao Bì Ánh Sáng và đây loại doanh nghiệp sản xuất."""
+                "doc": docs
             },
             config=config,
         )
