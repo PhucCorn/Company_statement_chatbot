@@ -55,7 +55,7 @@ async def handle_new_message(event):
     update_conversations(session_id, "", time)
     
 
-
+#.\env\Scripts\activate
 # Chạy client
 print("Bot đang chạy...")
 client.run_until_disconnected()
