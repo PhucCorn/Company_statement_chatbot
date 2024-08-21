@@ -10,10 +10,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.document_loaders import TextLoader
-from langchain.text_splitter import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain.vectorstores import VectorStore
 from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
@@ -21,17 +19,16 @@ from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.retrievers import ContextualCompressionRetriever
-from langchain_openai import OpenAI
 from operator import itemgetter
 import uuid
 from util import *
 
 class AIAssistant:
     def __init__(self):
-        self.model = ChatOpenAI(model="gpt-4o-mini-2024-07-18")
+        self.model = ChatOpenAI(model="gpt-4o-mini-2024-07-18", temperature=0)
+        self.embedding = OpenAIEmbeddings(model="text-embedding-3-large")
         self.parser = StrOutputParser()
         self.retriever = self.selfquerying_retriever()
-        self.embedding = OpenAIEmbeddings(model="text-embedding-3-large")
         
     def llm_memory(self):
         trimmer = trim_messages(
@@ -58,7 +55,8 @@ class AIAssistant:
                     Bạn là AI Chatbot của Công ty CP TM & SX Bao Bì Ánh Sáng. 
                     Bạn ở đây để trả lời tất cả các câu hỏi về văn hóa doanh nghiệp với các tài liệu bạn được cung cấp. 
                     Tài liệu được cung cấp: {doc} 
-                    Nếu tài liệu được cung cấp là "Không có tài liệu liên quan đến câu hỏi này." thì trả lời là \"Tôi không được cung cấp thông tin để trả lời câu hỏi này\"
+                    Nếu tài liệu được cung cấp là "Không có tài liệu liên quan đến câu hỏi này." hoặc các tài liệu được cung cấp không liên quan đến câu hỏi thì trả lời là \"Tôi không được cung cấp thông tin để trả lời câu hỏi này\"
+                    Lưu ý: CÁC CHỈ TRẢ LỜI CÁC CÂU HỎI ĐƯỢC HỎI, KHÔNG THỪA, KHÔNG THIẾU VÀ KHÔNG TỰ Ý TÓM TẮT HAY RÚT NGẮN CÂU TRẢ LỜI
                     """,
                 ),
                 MessagesPlaceholder(variable_name="question"), #phần "question" bên dưới sẽ được chèn vào đây
@@ -77,9 +75,8 @@ class AIAssistant:
             ),
         ]
         document_content_description = "Content of each topic"
-        llm = ChatOpenAI(temperature=0)
         retriever = SelfQueryRetriever.from_llm(
-            llm,
+            self.model,
             vectorstore,
             document_content_description,
             metadata_field_info,

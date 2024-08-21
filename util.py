@@ -16,16 +16,18 @@ def bbas_docs():
             metadata={"topic": "định nghĩa tuyên ngôn doanh nghiệp"},
         ),
         Document(
-            page_content="""Tuyên ngôn của một tổ chức: \"Không phải là những lời sáo rỗng
-            ; Không phải là những câu khoe khoang; Không phải là những lời ...tự sướng
-            ; Là linh hồn, bản chất, con người thực
-            ; Là niềm tin, lẽ sống, «tôn giáo»
-            ; Là sự định vị rõ ràng, nhất quán
-            ; Là cách thức để tìm “bạn” tốt
-            ; Là VĂN HÓA TỔ CHỨC
-            ; Là CÔNG CỤ MARKETING
-            ; Là THÔNG ĐIỆP TRUYỀN THÔNG hiệu quả
-            ; Là LỢI THẾ CẠNH TRANH""",
+            page_content="""Tuyên ngôn của một tổ chức: 
+            \"- Không phải là những lời sáo rỗng
+            - Không phải là những câu khoe khoang; Không phải là những lời ...tự sướng
+            - Là linh hồn, bản chất, con người thực
+            - Là niềm tin, lẽ sống, «tôn giáo»
+            - Là sự định vị rõ ràng, nhất quán
+            - Là cách thức để tìm “bạn” tốt
+            - Là VĂN HÓA TỔ CHỨC
+            - Là CÔNG CỤ MARKETING
+            - Là THÔNG ĐIỆP TRUYỀN THÔNG hiệu quả
+            - Là LỢI THẾ CẠNH TRANH\"
+            """,
             metadata={"topic": "tuyên ngôn của tổ chức"},
         ),
         Document(
@@ -58,17 +60,17 @@ def bbas_docs():
         ),
         Document(
             page_content="""Lợi ích của tuyên ngôn doanh nghiệp: \"
-            XÁC ĐỊNH ĐỊNH HƯỚNG, MỤC TIÊU, VÀ GIÁ TRỊ CỐT LÕI: Tạo ra sự thống nhất và hướng dẫn cho NV và những người liên quan về mục tiêu và giá trị của doanh nghiệp. 
-            THU HÚT NHÂN TÀI, KHÁCH HÀNG, ĐỐI TÁC, NHÀ ĐẦU TƯ, đặc biệt là những người chia sẻ các giá trị và mục tiêu của doanh nghiệp. Nó giúp tạo ra một ấn tượng mạnh mẽ và gây dựng lòng trung thành từ phía những người quan tâm. 
-            XÁC ĐỊNH VỊ TRÍ THỊ TRƯỜNG: Xác định và tạo ra một vị trí độc đáo trong thị trường. Nó cho phép doanh nghiệp tạo ra một hình ảnh và danh tiếng mạnh mẽ, giúp nó nổi bật giữa các đối thủ cạnh tranh.
-            GẮN KẾT NHÂN VIÊN: Câu tuyên ngôn cung cấp cho nhân viên một cái nhìn tổng thể về mục tiêu và giá trị của doanh nghiệp. Điều này giúp tạo ra sự đoàn kết và tinh thần làm việc trong tổ chức.
-            HƯỚNG DẪN RA QUYẾT ĐỊNH: Câu tuyên ngôn có thể hoạch định một khung nhìn và hướng dẫn cho các quyết định chiến lược của doanh nghiệp. Nó làm rõ những hành động và quyết định nào phù hợp với mục tiêu và giá trị cốt lõi của tổ chức.
-            GÂY DỰNG NIỀM TIN VÀ LÒNG TIN: Một câu tuyên ngôn mạnh mẽ có thể tạo ra sự tin tưởng và lòng tin từ phía khách hàng, nhà đầu tư và cộng đồng. Điều này giúp tăng cường uy tín và độ tin cậy của doanh nghiệp trong mắt công chúng.
-            TẠO ĐỘNG LỰC CHO NHÂN VIÊN: Khi NV hiểu rõ mục tiêu và giá trị mà doanh nghiệp hướng đến thông qua câu tuyên ngôn, họ cảm thấy được động viên và cam kết hơn trong công việc hàng ngày của mình.
-            TẠO ĐIỂM NHẤN CHO CHIẾN LƯỢC MARKETNG: Là một phần quan trọng của chiến lược marketing của doanh nghiệp. Nó giúp tạo ra thông điệp mạnh mẽ và dễ nhớ cho sản phẩm dịch vụ, từ đó thu hút và giữ chân khách hàng.
-            ĐỊNH HÌNH VĂN HÓA TỔ CHỨC: Là nền móng của văn hóa tổ chức. Nó không chỉ nêu bật mục tiêu và giá trị của doanh nghiệp mà còn giúp xây dựng và định hình cách NV làm việc và tương tác trong tổ chức.
-            TẠO SỰ KHÁC BIỆT & LỢI THẾ CẠNH TRANH: Câu tuyên ngôn độc đáo và phù hợp có thể giúp doanh nghiệp tạo ra sự khác biệt với đối thủ cạnh tranh. Nó giúp nâng cao nhận thức về thương hiệu và tạo ra một ấn tượng đặc biệt trong tâm trí của khách hàng.
-            THÚC ĐẨY SÁNG TẠO VÀ ĐỔI MỚI: Câu tuyên ngôn có thể là một nguồn cảm hứng và khuyến khích sự sáng tạo và đổi mới trong tổ chức. Nó có thể khuyến khích nhân viên tìm kiếm cách tiếp cận mới và tưởng tượng về cách thức thực hiện mục tiêu và giá trị của doanh nghiệp.
+            - XÁC ĐỊNH ĐỊNH HƯỚNG, MỤC TIÊU, VÀ GIÁ TRỊ CỐT LÕI: Tạo ra sự thống nhất và hướng dẫn cho NV và những người liên quan về mục tiêu và giá trị của doanh nghiệp. 
+            - THU HÚT NHÂN TÀI, KHÁCH HÀNG, ĐỐI TÁC, NHÀ ĐẦU TƯ, đặc biệt là những người chia sẻ các giá trị và mục tiêu của doanh nghiệp. Nó giúp tạo ra một ấn tượng mạnh mẽ và gây dựng lòng trung thành từ phía những người quan tâm. 
+            - XÁC ĐỊNH VỊ TRÍ THỊ TRƯỜNG: Xác định và tạo ra một vị trí độc đáo trong thị trường. Nó cho phép doanh nghiệp tạo ra một hình ảnh và danh tiếng mạnh mẽ, giúp nó nổi bật giữa các đối thủ cạnh tranh.
+            - GẮN KẾT NHÂN VIÊN: Câu tuyên ngôn cung cấp cho nhân viên một cái nhìn tổng thể về mục tiêu và giá trị của doanh nghiệp. Điều này giúp tạo ra sự đoàn kết và tinh thần làm việc trong tổ chức.
+            - HƯỚNG DẪN RA QUYẾT ĐỊNH: Câu tuyên ngôn có thể hoạch định một khung nhìn và hướng dẫn cho các quyết định chiến lược của doanh nghiệp. Nó làm rõ những hành động và quyết định nào phù hợp với mục tiêu và giá trị cốt lõi của tổ chức.
+            - GÂY DỰNG NIỀM TIN VÀ LÒNG TIN: Một câu tuyên ngôn mạnh mẽ có thể tạo ra sự tin tưởng và lòng tin từ phía khách hàng, nhà đầu tư và cộng đồng. Điều này giúp tăng cường uy tín và độ tin cậy của doanh nghiệp trong mắt công chúng.
+            - TẠO ĐỘNG LỰC CHO NHÂN VIÊN: Khi NV hiểu rõ mục tiêu và giá trị mà doanh nghiệp hướng đến thông qua câu tuyên ngôn, họ cảm thấy được động viên và cam kết hơn trong công việc hàng ngày của mình.
+            - TẠO ĐIỂM NHẤN CHO CHIẾN LƯỢC MARKETNG: Là một phần quan trọng của chiến lược marketing của doanh nghiệp. Nó giúp tạo ra thông điệp mạnh mẽ và dễ nhớ cho sản phẩm dịch vụ, từ đó thu hút và giữ chân khách hàng.
+            - ĐỊNH HÌNH VĂN HÓA TỔ CHỨC: Là nền móng của văn hóa tổ chức. Nó không chỉ nêu bật mục tiêu và giá trị của doanh nghiệp mà còn giúp xây dựng và định hình cách NV làm việc và tương tác trong tổ chức.
+            - TẠO SỰ KHÁC BIỆT & LỢI THẾ CẠNH TRANH: Câu tuyên ngôn độc đáo và phù hợp có thể giúp doanh nghiệp tạo ra sự khác biệt với đối thủ cạnh tranh. Nó giúp nâng cao nhận thức về thương hiệu và tạo ra một ấn tượng đặc biệt trong tâm trí của khách hàng.
+            - THÚC ĐẨY SÁNG TẠO VÀ ĐỔI MỚI: Câu tuyên ngôn có thể là một nguồn cảm hứng và khuyến khích sự sáng tạo và đổi mới trong tổ chức. Nó có thể khuyến khích nhân viên tìm kiếm cách tiếp cận mới và tưởng tượng về cách thức thực hiện mục tiêu và giá trị của doanh nghiệp.
             \"""",
             metadata={"topic": "lợi ích của tuyên ngôn doanh nghiệp"},
         ),
@@ -77,7 +79,11 @@ def bbas_docs():
             metadata={"topic": "định nghĩa triết lý kinh doanh"},
         ),
         Document(
-            page_content="""Triết lý kinh doanh của doanh nghiệp Bao Bì Ánh Sáng: \"Chúng tôi quan niệm rằng bao bì không đơn giản là vỏ bọc của sản phẩm. Bao bì phải thực hiện 3 vai trò quan trọng: Là lá chắn bảo vệ an toàn cho sản phẩm; là giải pháp thuận tiện cho việc bốc xếp, vận chuyển, lưu kho; là diện mạo và hình ảnh của thương hiệu. 
+            page_content="""Triết lý kinh doanh của doanh nghiệp Bao Bì Ánh Sáng: 
+            \"Chúng tôi quan niệm rằng bao bì không đơn giản là vỏ bọc của sản phẩm. Bao bì phải thực hiện 3 vai trò quan trọng: 
+            - Là lá chắn bảo vệ an toàn cho sản phẩm
+            - Là giải pháp thuận tiện cho việc bốc xếp, vận chuyển, lưu kho
+            - Là diện mạo và hình ảnh của thương hiệu. 
             Bao Bì Ánh Sáng không kinh doanh bao bì đơn thuần. Chúng tôi trao giá trị vượt trội cho khách hàng bằng các giải pháp tối ưu trong bảo vệ sản phẩm, trong bốc xếp, vận chuyển, lưu kho, và góp phần nâng tầm thương hiệu.\"""",
             metadata={"topic": "triết lý kinh doanh của Bao Bì Ánh Sáng"},
         ),
@@ -97,15 +103,70 @@ def bbas_docs():
             page_content="""tầm nhìn của Bao Bì Ánh Sáng: \"Trở thành doanh nghiệp hàng đầu Việt Nam và khu vực trong lĩnh vực bao bì, đóng gói, là lựa chọn ưu tiên nhất, tin cậy nhất của khách hàng trong lĩnh vực này.\"""",
             metadata={"topic": "tầm nhìn của Bao Bì Ánh Sáng"},
         ),
+        # Document(
+        #     page_content="""những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng: \"
+        #     TRÁCH NHIỆM: 'Trách nhiệm với công việc, Trách nhiệm với khách hàng, đối tác, nhà cung cấp, người lao động, Trách nhiệm với cổ đông, nhà đầu tư, cơ quan chức năng và các bên liên quan khác. Trách nhiệm với công ty, cấp trên, cấp dưới, đồng nghiệp. Trách nhiệm với mục tiêu, kế hoạch, thời hạn hoàn thành và các cam kết thực hiện. Trách nhiệm với lời nói và việc làm. Trách nhiệm với kết quả.'
+        #     TẬN TÂM: 'Hiểu ý khách hàng, đối tác, đồng nghiệp, cấp trên, cấp dưới... Hợp tác, hỗ trợ, tư vấn, giải thích, xử lý đến nơi, đến chốn. Thể hiện tinh thần trách nhiệm cao. Tự giác, tự nguyện, nhiệt tình, vui vẻ, tận tụy. Lường trước khó khăn của đồng nghiệp, khách hàng để giúp họ tránh được khó khăn. Luôn đặt mục tiêu thách thức để chinh phục.'
+        #     CAM KẾT: 'Cam kết với mục tiêu. Cam kết với deadline. Cam kết với khách hàng, đối tác, nhà cung cấp... Cam kết với nội bộ (cấp trên, cấp dưới, đồng nghiệp). Hứa và giữ lời hứa.'
+        #     CHÍNH TRỰC: 'Trung thực: Thành thật, không gian dối, lừa lọc. Liêm chính: Không gian lận, trục lợi, tư túi, trộm, cắp tài sản, tiền bạc. Đạo đức: Sống theo các giá trị tốt đẹp, phổ quát của nhân loại, coi trọng đạo lý, hành xử nhân nghĩa, nhân bản, nhân văn. Ngay thẳng: Không lươn lẹo, lấp liếm, lèo lá, bất minh, bất chính. Tử tế: Sống tốt, sống có tình người, sẵn lòng giúp đỡ người khác trong khả năng có thể.'
+        #     SÁNG TẠO: 'Chủ động, sáng tạo trong công việc; Liên tục nghĩ cách cải tiến, nâng cấp tư duy và đề xuất ý tường mới; Sáng tạo trong sản xuất, tiếp thị, bán hàng, giao hàng, phục vụ và chăm sóc khách hàng; Sáng tạo trong phương pháp quản lý; Chủ động suy nghĩ đề ra giải pháp cho những vẫn đề gặp phải; Luôn đặt câu hỏi và tự trả lời: "Liệu có cách nào khác tốt hơn không?".'
+        #     ĐỒNG ĐỘI: 'Mục tiêu: Luôn nghĩ đến mục tiêu chung; Quá trình: Thống nhất và tôn trọng quá trình, quy trình, quy định, kế hoạch, deadline; Giao tiếp: Giao tiếp rõ ràng, hiệu quả, giúp đồng đội hiểu rõ ý mình và tìm cách hiểu rõ đồng đội; Tham gia: Tham gia nhiệt tình, vui vẻ, phân công rõ ràng trách nhiệm, không chồng chéo, không bỏ sót nhiệm vụ; Cam kết: Cam kết với mục tiêu và thể hiện tinh thần trách nhiệm cao; Tin tưởng vào đồng đội; Hợp tác, hỗ trợ lẫn nhau trong công việc, nhắc nhờ nhau thực hiện các cam kết; Thân thiện, gần gũi, chào hỏi vui vẻ; Cởi mở, trao đổi cởi mở, không để bụng những điều không hài lòng về nhau; Chân tình, thành thật và tình cảm với nhau, thiện chí, thể hiện ý tốt.'
+        #     BIẾT ƠN: 'Biết ơn khách hàng. Biết ơn đối tác, nhà cung cấp. Biết ơn nhà đầu tư, cổ đông đồng hành. Biết ơn cấp trên, cấp dưới, đồng nghiệp. Biết ơn thiên nhiên, môi trường sống, cộng đồng. Biết ơn những hành động tốt dù rất nhỏ mà người khác làm cho mình.'
+        #     \"""",
+        #     metadata={"topic": "những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng"},
+        # ),
         Document(
             page_content="""những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng: \"
-            TRÁCH NHIỆM: 'Trách nhiệm với công việc, Trách nhiệm với khách hàng, đối tác, nhà cung cấp, người lao động, Trách nhiệm với cổ đông, nhà đầu tư, cơ quan chức năng và các bên liên quan khác. Trách nhiệm với công ty, cấp trên, cấp dưới, đồng nghiệp. Trách nhiệm với mục tiêu, kế hoạch, thời hạn hoàn thành và các cam kết thực hiện. Trách nhiệm với lời nói và việc làm. Trách nhiệm với kết quả.'
-            TẬN TÂM: 'Hiểu ý khách hàng, đối tác, đồng nghiệp, cấp trên, cấp dưới... Hợp tác, hỗ trợ, tư vấn, giải thích, xử lý đến nơi, đến chốn. Thể hiện tinh thần trách nhiệm cao. Tự giác, tự nguyện, nhiệt tình, vui vẻ, tận tụy. Lường trước khó khăn của đồng nghiệp, khách hàng để giúp họ tránh được khó khăn. Luôn đặt mục tiêu thách thức để chinh phục.'
-            CAM KẾT: 'Cam kết với mục tiêu. Cam kết với deadline. Cam kết với khách hàng, đối tác, nhà cung cấp... Cam kết với nội bộ (cấp trên, cấp dưới, đồng nghiệp). Hứa và giữ lời hứa.'
-            CHÍNH TRỰC: 'Trung thực: Thành thật, không gian dối, lừa lọc. Liêm chính: Không gian lận, trục lợi, tư túi, trộm, cắp tài sản, tiền bạc. Đạo đức: Sống theo các giá trị tốt đẹp, phổ quát của nhân loại, coi trọng đạo lý, hành xử nhân nghĩa, nhân bản, nhân văn. Ngay thẳng: Không lươn lẹo, lấp liếm, lèo lá, bất minh, bất chính. Tử tế: Sống tốt, sống có tình người, sẵn lòng giúp đỡ người khác trong khả năng có thể.'
-            SÁNG TẠO: 'Chủ động, sáng tạo trong công việc; Liên tục nghĩ cách cải tiến, nâng cấp tư duy và đề xuất ý tường mới; Sáng tạo trong sản xuất, tiếp thị, bán hàng, giao hàng, phục vụ và chăm sóc khách hàng; Sáng tạo trong phương pháp quản lý; Chủ động suy nghĩ đề ra giải pháp cho những vẫn đề gặp phải; Luôn đặt câu hỏi và tự trả lời: "Liệu có cách nào khác tốt hơn không?".'
-            ĐỒNG ĐỘI: 'Mục tiêu: Luôn nghĩ đến mục tiêu chung; Quá trình: Thống nhất và tôn trọng quá trình, quy trình, quy định, kế hoạch, deadline; Giao tiếp: Giao tiếp rõ ràng, hiệu quả, giúp đồng đội hiểu rõ ý mình và tìm cách hiểu rõ đồng đội; Tham gia: Tham gia nhiệt tình, vui vẻ, phân công rõ ràng trách nhiệm, không chồng chéo, không bỏ sót nhiệm vụ; Cam kết: Cam kết với mục tiêu và thể hiện tinh thần trách nhiệm cao; Tin tưởng vào đồng đội; Hợp tác, hỗ trợ lẫn nhau trong công việc, nhắc nhờ nhau thực hiện các cam kết; Thân thiện, gần gũi, chào hỏi vui vẻ; Cởi mở, trao đổi cởi mở, không để bụng những điều không hài lòng về nhau; Chân tình, thành thật và tình cảm với nhau, thiện chí, thể hiện ý tốt.'
-            BIẾT ƠN: 'Biết ơn khách hàng. Biết ơn đối tác, nhà cung cấp. Biết ơn nhà đầu tư, cổ đông đồng hành. Biết ơn cấp trên, cấp dưới, đồng nghiệp. Biết ơn thiên nhiên, môi trường sống, cộng đồng. Biết ơn những hành động tốt dù rất nhỏ mà người khác làm cho mình.'
+            1. TRÁCH NHIỆM: 
+            - Trách nhiệm với công việc
+            - Trách nhiệm với khách hàng, đối tác, nhà cung cấp, người lao động
+            - Trách nhiệm với cổ đông, nhà đầu tư, cơ quan chức năng và các bên liên quan khác. 
+            - Trách nhiệm với công ty, cấp trên, cấp dưới, đồng nghiệp. 
+            - Trách nhiệm với mục tiêu, kế hoạch, thời hạn hoàn thành và các cam kết thực hiện. 
+            - Trách nhiệm với lời nói và việc làm. Trách nhiệm với kết quả.
+            2. TẬN TÂM: 
+            - Hiểu ý khách hàng, đối tác, đồng nghiệp, cấp trên, cấp dưới... 
+            - Hợp tác, hỗ trợ, tư vấn, giải thích, xử lý đến nơi, đến chốn. 
+            - Thể hiện tinh thần trách nhiệm cao. 
+            - Tự giác, tự nguyện, nhiệt tình, vui vẻ, tận tụy. 
+            - Lường trước khó khăn của đồng nghiệp, khách hàng để giúp họ tránh được khó khăn. 
+            - Luôn đặt mục tiêu thách thức để chinh phục.
+            3. CAM KẾT: 
+            - Cam kết với mục tiêu. 
+            - Cam kết với deadline. 
+            - Cam kết với khách hàng, đối tác, nhà cung cấp... 
+            - Cam kết với nội bộ (cấp trên, cấp dưới, đồng nghiệp). Hứa và giữ lời hứa.
+            4. CHÍNH TRỰC: 
+            - Trung thực: Thành thật, không gian dối, lừa lọc. 
+            - Liêm chính: Không gian lận, trục lợi, tư túi, trộm, cắp tài sản, tiền bạc. 
+            - Đạo đức: Sống theo các giá trị tốt đẹp, phổ quát của nhân loại, coi trọng đạo lý, hành xử nhân nghĩa, nhân bản, nhân văn. 
+            - Ngay thẳng: Không lươn lẹo, lấp liếm, lèo lá, bất minh, bất chính. 
+            - Tử tế: Sống tốt, sống có tình người, sẵn lòng giúp đỡ người khác trong khả năng có thể.
+            5. SÁNG TẠO: 
+            - Chủ động, sáng tạo trong công việc
+            - Liên tục nghĩ cách cải tiến, nâng cấp tư duy và đề xuất ý tường mới
+            - Sáng tạo trong sản xuất, tiếp thị, bán hàng, giao hàng, phục vụ và chăm sóc khách hàng
+            - Sáng tạo trong phương pháp quản lý
+            - Chủ động suy nghĩ đề ra giải pháp cho những vẫn đề gặp phải
+            - Luôn đặt câu hỏi và tự trả lời: "Liệu có cách nào khác tốt hơn không?".
+            6. ĐỒNG ĐỘI: 
+            - Mục tiêu: Luôn nghĩ đến mục tiêu chung
+            - Quá trình: Thống nhất và tôn trọng quá trình, quy trình, quy định, kế hoạch, deadline
+            - Giao tiếp: Giao tiếp rõ ràng, hiệu quả, giúp đồng đội hiểu rõ ý mình và tìm cách hiểu rõ đồng đội
+            - Tham gia: Tham gia nhiệt tình, vui vẻ, phân công rõ ràng trách nhiệm, không chồng chéo, không bỏ sót nhiệm vụ
+            - Cam kết: Cam kết với mục tiêu và thể hiện tinh thần trách nhiệm cao
+            - Tin tưởng vào đồng đội
+            - Hợp tác, hỗ trợ lẫn nhau trong công việc, nhắc nhờ nhau thực hiện các cam kết
+            - Thân thiện, gần gũi, chào hỏi vui vẻ
+            - Cởi mở, trao đổi cởi mở, không để bụng những điều không hài lòng về nhau
+            - Chân tình, thành thật và tình cảm với nhau, thiện chí, thể hiện ý tốt.
+            7.BIẾT ƠN: 
+            - Biết ơn khách hàng
+            - Biết ơn đối tác, nhà cung cấp. 
+            - Biết ơn nhà đầu tư, cổ đông đồng hành. 
+            - Biết ơn cấp trên, cấp dưới, đồng nghiệp. 
+            - Biết ơn thiên nhiên, môi trường sống, cộng đồng. 
+            - Biết ơn những hành động tốt dù rất nhỏ mà người khác làm cho mình.'
             \"""",
             metadata={"topic": "những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng"},
         ),
