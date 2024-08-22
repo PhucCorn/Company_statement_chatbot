@@ -19,6 +19,7 @@ from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.retrievers import ContextualCompressionRetriever
+from ragatouille import RAGPretrainedModel
 from operator import itemgetter
 import uuid
 from util import *
@@ -57,6 +58,7 @@ class AIAssistant:
                     Tài liệu được cung cấp: {doc} 
                     Nếu tài liệu được cung cấp là "Không có tài liệu liên quan đến câu hỏi này." hoặc các tài liệu được cung cấp không liên quan đến câu hỏi thì trả lời là \"Tôi không được cung cấp thông tin để trả lời câu hỏi này\"
                     Lưu ý: CÁC CHỈ TRẢ LỜI CÁC CÂU HỎI ĐƯỢC HỎI, KHÔNG THỪA, KHÔNG THIẾU VÀ KHÔNG TỰ Ý TÓM TẮT HAY RÚT NGẮN CÂU TRẢ LỜI
+                    Câu hỏi:
                     """,
                 ),
                 MessagesPlaceholder(variable_name="question"), #phần "question" bên dưới sẽ được chèn vào đây
@@ -121,7 +123,7 @@ class AIAssistant:
         try:
             _filter = LLMChainFilter.from_llm(self.model)
             compression_retriever = ContextualCompressionRetriever(
-                base_compressor=_filter, base_retriever=self.retriever
+                base_compressor=RAG.as_langchain_document_compressor(), base_retriever=self.retriever
             )
             docs = compression_retriever.invoke(question)
         except Exception as e:
