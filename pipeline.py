@@ -19,10 +19,11 @@ from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.retrievers import ContextualCompressionRetriever
-from ragatouille import RAGPretrainedModel
 from operator import itemgetter
 import uuid
+import os
 from util import *
+import openai
 
 class AIAssistant:
     def __init__(self):
@@ -42,7 +43,7 @@ class AIAssistant:
         )
         query = {'username': 'phuccngo'}
         dbclient = MongoClient('mongodb://localhost:27017/')
-        db = dbclient['chat_database']
+        db = dbclient['company_statement_chat_database']
         conversations_collection = db['messages']
         result = conversations_collection.find_one(query)
         return trimmer
@@ -53,11 +54,11 @@ class AIAssistant:
                 (
                     "system",
                     """
-                    Bạn là AI Chatbot của Công ty CP TM & SX Bao Bì Ánh Sáng. 
+                    Bạn là AI Chatbot của Công ty CP TM & SX Bao Bì Ánh Sáng hay BBAS. 
                     Bạn ở đây để trả lời tất cả các câu hỏi về văn hóa doanh nghiệp với các tài liệu bạn được cung cấp. 
                     Tài liệu được cung cấp: {doc} 
-                    Nếu tài liệu được cung cấp là "Không có tài liệu liên quan đến câu hỏi này." hoặc các tài liệu được cung cấp không liên quan đến câu hỏi thì trả lời là \"Tôi không được cung cấp thông tin để trả lời câu hỏi này\"
-                    Lưu ý: CÁC CHỈ TRẢ LỜI CÁC CÂU HỎI ĐƯỢC HỎI, KHÔNG THỪA, KHÔNG THIẾU VÀ KHÔNG TỰ Ý TÓM TẮT HAY RÚT NGẮN CÂU TRẢ LỜI
+                    Nếu tài liệu được cung cấp là "Không có tài liệu liên quan đến câu hỏi hoặc yêu cầu này." hoặc các tài liệu được cung cấp không liên quan đến câu hỏi hoặc yêu cầu thì trả lời là \"Tôi không được cung cấp thông tin để trả lời câu hỏi này\"
+                    Lưu ý: CÁC CHỈ TRẢ LỜI CÁC CÂU HỎI HOẶC YÊU CẦU ĐƯỢC HỎI, KHÔNG THỪA, KHÔNG THIẾU VÀ KHÔNG TỰ Ý TÓM TẮT HAY RÚT NGẮN CÂU TRẢ LỜI
                     Câu hỏi:
                     """,
                 ),
@@ -123,12 +124,11 @@ class AIAssistant:
         try:
             _filter = LLMChainFilter.from_llm(self.model)
             compression_retriever = ContextualCompressionRetriever(
-                base_compressor=RAG.as_langchain_document_compressor(), base_retriever=self.retriever
+                base_compressor=_filter, base_retriever=self.retriever
             )
             docs = compression_retriever.invoke(question)
         except Exception as e:
             docs = [Document(page_content="Không có tài liệu liên quan đến câu hỏi này.", metadata={})]
-        docs = compression_retriever.invoke(question)
         return "\n\n".join(doc.page_content for doc in docs)
 
     def invoke(self, question: str, session_id: str) -> str:
@@ -157,3 +157,34 @@ class AIAssistant:
             config=config,
         )
         return result
+    
+    def stream(self, question: str, session_id: str) -> str:
+        config = {"configurable": {"session_id": session_id}}
+        trimmer = self.llm_memory()
+        prompt = self.prompt_gen()
+        chain = (
+            RunnablePassthrough.assign(messages=itemgetter("question") | trimmer)
+            | prompt
+            | self.model
+            | self.parser
+        )
+        with_message_history = RunnableWithMessageHistory(
+            chain,
+            get_session_history_mongodb,
+            input_messages_key="question", #Which key is user's input
+        )
+        docs = self.docs_gen(question)
+        print(docs)
+        print("/////////////////////////////////////////////")
+        result = with_message_history.invoke(
+            {
+                "question": [HumanMessage(content=question)],
+                "doc": docs
+            },
+            config=config,
+        )
+        dict_input = {
+            "question": [HumanMessage(content=question)],
+            "doc": docs
+        }
+        return with_message_history, dict_input, config

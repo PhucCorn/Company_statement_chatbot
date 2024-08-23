@@ -5,7 +5,7 @@ def get_session_history_mongodb(session_id):
     return MongoDBChatMessageHistory(
         'mongodb://localhost:27017/', 
         session_id, 
-        database_name="chat_database", 
+        database_name="company_statement_chat_database", 
         collection_name="messages"
     )
     
@@ -116,7 +116,7 @@ def bbas_docs():
         #     metadata={"topic": "những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng"},
         # ),
         Document(
-            page_content="""những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng: \"
+            page_content="""Giá trị cốt lõi(GTCL) của Bao Bì Ánh Sáng: \"
             1. TRÁCH NHIỆM: 
             - Trách nhiệm với công việc
             - Trách nhiệm với khách hàng, đối tác, nhà cung cấp, người lao động
@@ -168,10 +168,10 @@ def bbas_docs():
             - Biết ơn thiên nhiên, môi trường sống, cộng đồng. 
             - Biết ơn những hành động tốt dù rất nhỏ mà người khác làm cho mình.'
             \"""",
-            metadata={"topic": "những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng"},
+            metadata={"topic": "giá trị cốt lõi(GTCL) của Bao Bì Ánh Sáng"},
         ),
         Document(
-            page_content="""Vì sao Tổ chức cần có Giá Trị Cốt Lõi ? \"
+            page_content="""Vì sao Tổ chức cần có Giá Trị Cốt Lõi(GTCL)? \"
             Câu trả lời đơn giản là để "dẫn dắt Hành vi của Tổ chức", là Kim chỉ nam trong "mọi Hành động" của tất cả nhân viên trong Tổ chức đó và xa hơn là thứ hoàn toàn có thể "Nói" với Khách hàng (Khách hàng, Đối tác, Nhân viên, Xã hội) như là "một Lời hứa Thương hiệu", là thứ khác biệt giữa Tổ chức này và Tổ chức khác. Đây được xem như là một "Phẩm chất bên trong" của một Tổ chức, là thứ Bất biến, không thay đổi theo Thời gian thì mới được gọi là Giá trị Cốt lõi.
             Không có "Giá trị Cốt lõi" để dẫn dắt hành vi thì Tổ chức đấy rất dễ bị lạc lối và khó tồn tại lâu dài, vì các cấp Nhân viên hành động không theo một cách thống nhất, hoặc chỉ Hành động theo Lợi ích của mình hoặc của một phòng Ban mình, mỗi người hành động không theo một Nguyên tắc nào. Và chắc chắn khi đó thì những giá trị đó không được gọi là Giá trị Cốt lõi.
             Khi công ty bắt đầu lớn lên, có nhiều phòng ban, có nhiều nhân viên (trên 30 người, ở các công ty không thâm hụt lao động nghề lớn) thì việc có một Hệ giá trị cốt lõi (tối đa 6 giá trị) là điều kiện cần để đưa công ty đi xa. Và ở công ty đó, nhân viên được "hoàn toàn An toàn" nếu Hành động theo các Giá trị cốt lõi mà không phải lo ngại hay sợ bị sa thải hay khiển trách, mà trái lại còn được Tuyên dương, được xem là một trong số những phẩm chất quan trọng để xét xem nhân viên đó có phải là "Hiền tài" của Tổ chức hay không? Những nhân viên "thường xuyên" vi phạm các Giá trị cốt lõi sớm hay muộn rồi thì cũng không thể tồn tại hay làm lâu trong Tổ chức đó. Vậy nên tại sao lại có sự chia tay, một số người trong Tổ chức (hoặc một Group) lại tách ra và thành lập một Tổ chức mới, thể hiện các Giá trị, các Niềm tin chung mà người ta hay gọi là "cùng Hệ giá trị"?
@@ -181,7 +181,7 @@ def bbas_docs():
             + Chúng tôi thực hiện đúng Cam kết với Khách hàng, Đối tác, Cổ đông và Nhân viên về các Thoả thuận đã được Thống nhất.
             Có nghĩa là khi làm ăn với công ty này, Khách hàng có thể nhận được Sự Đảm bảo 100%, Sự An tâm không chỉ là về chất lượng sản phẩm, về những cam kết ban đầu mà còn là chịu trách nhiệm cho đến khi Giải quyết được vấn đề của Khách hàng và đặc biệt là những sản phẩm cung cấp phải mang lại giá trị ứng dụng thực tế. Vì vậy, Giá trị Cốt lõi của Tổ chức thực sự là một Lời hứa, một "Lời hứa xây dựng nên Thương Hiệu", cần được thực hiện nghiêm túc, không chỉ một lần mà xuyên suốt mãi mãi trong quá trình Tồn tại của Tổ chức.
             \"""",
-            metadata={"topic": "Vì sao Tổ chức cần có Giá Trị Cốt Lõi ?"},
+            metadata={"topic": "Vì sao Tổ chức cần có Giá Trị Cốt Lõi(GTCL) ?"},
         ),
         Document(
             page_content="""lý tưởng của Bao Bì Ánh Sáng: \"
@@ -196,7 +196,7 @@ def bbas_docs():
             metadata={"topic": "trách nhiệm của Bao Bì Ánh Sáng"},
         ),
         Document(
-            page_content="""lợi thế cạnh tranh từ năng lực cốt lõi: \"
+            page_content="""lợi thế cạnh tranh từ năng lực cốt lõi(NLCL): \"
             Giả sử, trong 100 người bán, tất cả đều cam kết mang đến những sản phẩm chất lượng, với mức giá cạnh tranh. Tuy nhiên, thực tế chỉ có 50 doanh nghiệp thực hiện đúng cam kết. Trong 50 doanh nghiệp đó, chỉ có 10 doanh nghiệp mang đến những trải nghiệm thực tế vượt trội cho khách hàng. Khi đó, 10 doanh nghiệp này đang có nhiều lợi thế cạnh tranh so với các doanh nghiệp khác, lẽ đương nhiên, cơ hội các doanh nghiệp đó bán được hàng cũng sẽ cao hơn, thu nhập và các chế độ phúc lợi cho nhân viên của họ cũng tốt hơn nhiều số còn lại.
             Vậy, tại sao 10 doanh nghiệp đó có được lợi thế cạnh tranh còn 90 doanh nghiệp còn lại thì không?
             Sự khác biệt nằm ở năng lực cốt lõi. Năng lực cốt lõi được hiểu ở đây phải được lựa chọn phù hợp với đặc thù doanh nghiệp. Đó phải là những ưu thế, giá trị tốt nhất doanh nghiệp có thể mang đến cho khách hàng. Trong ví dụ trên, 10 doanh nghiệp có lợi thế cạnh tranh đã lựa chọn và mang đến cho khách hàng những ưu thế thực sự, gắn liền với năng lực của họ. Đảm bảo các yếu tố:
@@ -209,25 +209,25 @@ def bbas_docs():
             3. Tính bền vững: năng lực cốt lõi phải luôn được giữ vững và phát huy được hiệu quả trong
             suốt quá trình phát triển của tổ chức.
             \"""",
-            metadata={"topic": "lợi thế cạnh tranh từ năng lực cốt lõi"},
+            metadata={"topic": "lợi thế cạnh tranh từ năng lực cốt lõi(NLCL)"},
         ),
         Document(
-            page_content="""khái niệm năng lực cốt lõi: \"
+            page_content="""khái niệm năng lực cốt lõi(NLCL): \"
             Năng lực cốt lõi là cơ sở tạo ra lợi thế cạnh tranh. Từ đó, định hướng phát triển và tăng trưởng lợi nhuận, góp phần tạo nên môi trường làm việc và mức thu nhập tốt hơn cho toàn thể nhân viên.
             \"""",
-            metadata={"topic": "khái niệm năng lực cốt lõi"},
+            metadata={"topic": "khái niệm năng lực cốt lõi(NLCL)"},
         ),
         Document(
-            page_content="""mối quan hệ giữa năng lực cốt lõi và giá trị cốt lõi: \"
+            page_content="""mối quan hệ giữa năng lực cốt lõi(NLCL) và giá trị cốt lõi(GTCL): \"
             Nếu ví doanh nghiệp như một ngôi nhà thì giá trị cốt lõi là nền móng vững chắc ban đầu nhằm hình thành và định hướng bộ khung các năng lực cốt lõi của doanh nghiệp, hướng đến xây dựng và hoàn thành mái nhà chung (sứ mệnh, tầm nhìn).
             - Sứ mệnh là nhiệm vụ lâu dài, và là LÝ DO TỒN TẠI của tổ chức/ doanh nghiệp.
             - Tầm nhìn là MỤC TIÊU mà doanh nghiệp muốn hướng đến.
             - Giá trị cốt lõi ("GTCL") là những nguyên tắc và niềm tin của tổ chức, là nền tảng định hướng toàn thể thành viên của tổ chức cùng nhau thực hiện và đạt được kết quả chung.
             \"""",
-            metadata={"topic": "khái niệm năng lực cốt lõi"},
+            metadata={"topic": "khái niệm năng lực cốt lõi(NLCL)"},
         ),
         Document(
-            page_content="""5 năng lực cốt lõi của Bao Bì Ánh Sáng: \"
+            page_content="""5 năng lực cốt lõi(NLCL) của Bao Bì Ánh Sáng: \"
             1. Đa dạng mẫu mã - giá cả cạnh tranh:
             Đa dạng mẫu mã: 
             'Đa dạng loại hình sản phẩm và đa dạng phân khúc bán hàng. Liên tục cung cấp hàng loạt các loại sản phẩm đa dạng với nhiều kích thước, hình dạng và chất liệu khác nhau. Không chỉ sản xuất bao bì, định hướng đa dạng hóa nhiều sản phẩm hơn như túi xách, tấm cách nhiệt,...
@@ -257,7 +257,7 @@ def bbas_docs():
             Uy tín và trách nhiệm: 'Xây dựng uy tín thông qua việc luôn tuân thủ các cam kết. Hướng dẫn, đào tạo nhân viên tuân theo các quy tắc đạo đức, đảm bảo tính trung thực, không gian dối, luôn tuân thủ đúng các quy định và tiêu chuẩn. Đảm bảo các thông tin liên quan đến sản phẩm và quy trình sản xuất được cung cấp một cách minh bạch và chính xác cho khách hàng. Đồng thời, bảo đảm yếu tố bảo mật thông tin cho khách, tạo dựng sự tin tưởng và an tâm khi sử dụng sản phẩm của công ty.'
             Với năng lực cốt lõi "Tạo dựng sự an tâm bằng tinh thần phục vụ trách nhiệm và uy tín", công ty thể hiện sự cam kết, tận tâm phục vụ và tuân thủ các nguyên tắc đạo đức, từ đó, xây dựng một hình ảnh đáng tin cậy và uy tín trong ấn tượng của khách hàng về BBAS.
             \"""",
-            metadata={"topic": "5 năng lực cốt lõi của Bao Bì Ánh Sáng"},
+            metadata={"topic": "5 năng lực cốt lõi(NLCL) của Bao Bì Ánh Sáng"},
         ),
     ]
     return docs
