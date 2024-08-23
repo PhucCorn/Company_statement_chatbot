@@ -44,7 +44,7 @@ def insert_messages(session_id, question, answer, time):
     return
 
 @client.on(events.NewMessage)
-async def handle_new_message(event, stream=True):
+async def handle_new_message(event, stream=False):
     #Collect information from message
     sender = await event.get_sender()
     time = datetime.datetime.now()
@@ -69,7 +69,7 @@ async def handle_new_message(event, stream=True):
                     continue
                 if (i % 5 == 0) or (i == total_chunks - 1):
                     await client.edit_message(event.chat_id, initial_message, complete_response)
-                    t.sleep(0.1)
+                    t.sleep(1)
             except Exception as e:
                 await event.respond('Đã xảy ra lỗi trong quá trình sinh câu trả lời')
                 break
