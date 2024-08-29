@@ -1,5 +1,8 @@
 from langchain_mongodb.chat_message_histories import MongoDBChatMessageHistory
 from langchain_core.documents import Document
+from langchain.chains.query_constructor.base import AttributeInfo
+from langchain_openai import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
 
 def get_session_history_mongodb(session_id):
     return MongoDBChatMessageHistory(
@@ -13,7 +16,7 @@ def bbas_docs():
     docs = docs = [
         Document(
             page_content="Tuyên ngôn doanh nghiệp: \"là tuyên bố chính thức của doanh nghiệp đối với khách hàng, đối tác, người lao động, cộng đồng và các bên liên quan khác về doanh nghiệp.\"",
-            metadata={"topic": "định nghĩa tuyên ngôn doanh nghiệp"},
+            metadata={"topic_vn": "định nghĩa tuyên ngôn doanh nghiệp", "topic_en": "Definition of Corporate Manifesto"},
         ),
         Document(
             page_content="""Tuyên ngôn của một tổ chức: 
@@ -28,35 +31,35 @@ def bbas_docs():
             - Là THÔNG ĐIỆP TRUYỀN THÔNG hiệu quả
             - Là LỢI THẾ CẠNH TRANH\"
             """,
-            metadata={"topic": "tuyên ngôn của tổ chức"},
+            metadata={"topic_vn": "tuyên ngôn của tổ chức", "topic_en": "Organizational Manifesto"},
         ),
         Document(
             page_content="TUYÊN NGÔN ĐẠO ĐỨC: \"Mô tả cam kết của công ty với việc duy trì các chuẩn mực đạo đức cao trong mọi hoạt động kinh doanh. Nó hướng dẫn nhân viên về cách thức hành xử một cách trung thực và công bằng.\"",
-            metadata={"topic": "định nghĩa tuyên ngôn đạo đức"},
+            metadata={"topic_vn": "định nghĩa tuyên ngôn đạo đức", "topic_en": "Definition of Ethical Manifesto"},
         ),
         Document(
             page_content="TUYÊN NGÔN CHẤT LƯỢNG: \"Phản ánh cam kết của công ty đối với việc duy trì chất lượng sản phẩm hoặc dịch vụ. Nó thường bao gồm các mục tiêu chất lượng cụ thể và cách thức công ty đo lường và đạt được chúng.\"",
-            metadata={"topic": "định nghĩa tuyên ngôn đạo đức"},
+            metadata={"topic_vn": "định nghĩa tuyên ngôn chất lượng", "topic_en": "Definition of Quality Manifesto"},
         ),
         Document(
             page_content="TUYÊN NGÔN ĐA DẠNG, BÌNH ĐẰNG, HÒA NHẬP: \"Biểu thị cam kết của công ty với việc xây dựng một môi trường làm việc đa dạng, công bằng và hòa nhập, nơi mọi người được trân trọng và kính trọng, đối xử bình đẳng bất kể sự khác biệt về nền văn hóa, giới tính, tuổi tác, tôn giáo, và khả năng\"",
-            metadata={"topic": "đa dạng, bình đẳng, hòa nhập"},
+            metadata={"topic_vn": "đa dạng, bình đẳng, hòa nhập", "topic_en": "Diversity, Equity, Inclusion"},
         ),
         Document(
             page_content="TUYÊN NGÔN BỀN VỮNG: \"Cam kết của công ty với việc kinh doanh một cách bền vững, tôn trọng môi trường và tìm cách giảm thiểu tác động tiêu cực đến hành tỉnh.\"",
-            metadata={"topic": "đa dạng, bình đẳng, hòa nhập"},
+            metadata={"topic_vn": "định nghĩa tuyên ngôn bền vững", "topic_en": "Definition of Sustainability Manifesto"},
         ),
         Document(
             page_content="TUYÊN NGÔN AN TOÀN, SỨC KHỎE, MÔI TRƯỜNG: \"Khẳng định ưu tiên của công ty đối với việc bảo vệ an toàn, sức khỏe và môi tường của nhân viên tại nơi làm việc và ngoài cộng đồng. Nó thường bao gồm các chính sách và thủ tục cụ thể để đảm bảo an toàn, sức khoẻ và không gây hại cho môi trường\"",
-            metadata={"topic": "đa dạng, bình đẳng, hòa nhập"},
+            metadata={"topic_vn": "định nghĩa tuyên ngôn an toàn, sức khỏe, môi trường", "topic_en": "Definition of Health, Safety, Environment Manifesto"},
         ),
         Document(
             page_content="TUYÊN NGÔN CAM KẾT VỚI KHÁCH HÀNG: \"Mô tả sự cam kết của công ty đối với việc cung cấp dịch vụ khách hàng xuất sắc và làm thế nào họ đáp ứng hoặc vượt qua kỳ vọng của khách hàng.\"",
-            metadata={"topic": "đa dạng, bình đẳng, hòa nhập"},
+            metadata={"topic_vn": "định nghĩa tuyên ngôn cam kết với khách hàng", "topic_en": "Definition of Customer Commitment Manifesto"},
         ),
         Document(
             page_content="""Vì sao cần tuyên ngôn? \"Các câu tuyên ngôn giúp làm rõ hơn các nguyên tắc và giá trị mà công ty hoạt động dựa trên chúng, cung cấp hướng dẫn cho nhân viên, và truyền đạt cam kết của công ty đến các bên liên quan như khách hàng, đối tác, và cộng đồng\"""",
-            metadata={"topic": "vì sao cần tuyên ngôn"},
+            metadata={"topic_vn": "vì sao cần tuyên ngôn", "topic_en": "Why is a Manifesto Necessary?"},
         ),
         Document(
             page_content="""Lợi ích của tuyên ngôn doanh nghiệp: \"
@@ -68,43 +71,63 @@ def bbas_docs():
             - GÂY DỰNG NIỀM TIN VÀ LÒNG TIN: Một câu tuyên ngôn mạnh mẽ có thể tạo ra sự tin tưởng và lòng tin từ phía khách hàng, nhà đầu tư và cộng đồng. Điều này giúp tăng cường uy tín và độ tin cậy của doanh nghiệp trong mắt công chúng.
             - TẠO ĐỘNG LỰC CHO NHÂN VIÊN: Khi NV hiểu rõ mục tiêu và giá trị mà doanh nghiệp hướng đến thông qua câu tuyên ngôn, họ cảm thấy được động viên và cam kết hơn trong công việc hàng ngày của mình.
             - TẠO ĐIỂM NHẤN CHO CHIẾN LƯỢC MARKETNG: Là một phần quan trọng của chiến lược marketing của doanh nghiệp. Nó giúp tạo ra thông điệp mạnh mẽ và dễ nhớ cho sản phẩm dịch vụ, từ đó thu hút và giữ chân khách hàng.
-            - ĐỊNH HÌNH VĂN HÓA TỔ CHỨC: Là nền móng của văn hóa tổ chức. Nó không chỉ nêu bật mục tiêu và giá trị của doanh nghiệp mà còn giúp xây dựng và định hình cách NV làm việc và tương tác trong tổ chức.
+            - ĐỊNH HÌNH VĂN HÓA TỔ CHỨC: '
+            Là nền móng của văn hóa tổ chức. Nó không chỉ nêu bật mục tiêu và giá trị của doanh nghiệp mà còn giúp xây dựng và định hình cách NV làm việc và tương tác trong tổ chức.
+            Đây là linh hồn, bản chất, con người thực. Là niềm tin, lẽ sống, tôn giáo. Là sự định vị rõ ràng, nhất quán. Là cách thức để chúng ta tìm “bạn tốt”.
+            + Là VĂN HÓA TỔ CHỨC
+            + Là CÔNG CỤ MARKETING
+            + Là THÔNG ĐIỆP TRUYỀN THÔNG hiệu quả
+            + Là LỢI THẾ CẠNH TRANH
+            '
             - TẠO SỰ KHÁC BIỆT & LỢI THẾ CẠNH TRANH: Câu tuyên ngôn độc đáo và phù hợp có thể giúp doanh nghiệp tạo ra sự khác biệt với đối thủ cạnh tranh. Nó giúp nâng cao nhận thức về thương hiệu và tạo ra một ấn tượng đặc biệt trong tâm trí của khách hàng.
             - THÚC ĐẨY SÁNG TẠO VÀ ĐỔI MỚI: Câu tuyên ngôn có thể là một nguồn cảm hứng và khuyến khích sự sáng tạo và đổi mới trong tổ chức. Nó có thể khuyến khích nhân viên tìm kiếm cách tiếp cận mới và tưởng tượng về cách thức thực hiện mục tiêu và giá trị của doanh nghiệp.
             \"""",
-            metadata={"topic": "lợi ích của tuyên ngôn doanh nghiệp"},
+            metadata={"topic_vn": "lợi ích của tuyên ngôn doanh nghiệp", "topic_en": "Benefits of a Corporate Manifesto"},
+        ),
+        Document(
+            page_content="""Định nghĩa văn hóa doanh nghiệp của Bao Bì Ánh Sáng (BBAS): 
+            Đều là các giá trị thật, được thể hiện như một thói quen, hàng ngày, hàng giờ, trong từng khoảnh khắc.
+            Trong từng ánh mắt tự hào, từng lời nói, từng suy nghĩ của mỗi nhân viên BBAS.
+            Sẽ không phải là văn hóa DN, nếu:
+            - Không thực sự coi trọng nó
+            - Dễ dàng đánh đổi nó vì mục đích lợi nhuận
+            - Dễ dàng thay đổi nó theo thời gian
+            - Nội bộ không cam kết, giữ gìn nó
+            - Không dám truyền thông, không dám tự hào
+            """,
+            metadata={"topic_vn": "định nghĩa văn hóa doanh nghiệp", "topic_en": "Definition of Corporate Culture"},
         ),
         Document(
             page_content="""Định nghĩa triết lý kinh doanh của một doanh nghiệp: \"Là những niềm tin hoặc nguyên tắc nền tảng, làm định hướng cho cách thức kinh doanh của doanh nghiệp, bao gồm thái độ của công ty đối với khách hàng, nhân viên, đối tác, các bên liên quan và mục đích tổng thể của nó.\"""",
-            metadata={"topic": "định nghĩa triết lý kinh doanh"},
+            metadata={"topic_vn": "định nghĩa triết lý kinh doanh", "topic_en": "Definition of Business Philosophy"},
         ),
         Document(
-            page_content="""Triết lý kinh doanh của doanh nghiệp Bao Bì Ánh Sáng: 
+            page_content="""Triết lý kinh doanh của doanh nghiệp Bao Bì Ánh Sáng (BBAS): 
             \"Chúng tôi quan niệm rằng bao bì không đơn giản là vỏ bọc của sản phẩm. Bao bì phải thực hiện 3 vai trò quan trọng: 
             - Là lá chắn bảo vệ an toàn cho sản phẩm
             - Là giải pháp thuận tiện cho việc bốc xếp, vận chuyển, lưu kho
             - Là diện mạo và hình ảnh của thương hiệu. 
-            Bao Bì Ánh Sáng không kinh doanh bao bì đơn thuần. Chúng tôi trao giá trị vượt trội cho khách hàng bằng các giải pháp tối ưu trong bảo vệ sản phẩm, trong bốc xếp, vận chuyển, lưu kho, và góp phần nâng tầm thương hiệu.\"""",
-            metadata={"topic": "triết lý kinh doanh của Bao Bì Ánh Sáng"},
+            Bao Bì Ánh Sáng (BBAS) không kinh doanh bao bì đơn thuần. Chúng tôi trao giá trị vượt trội cho khách hàng bằng các giải pháp tối ưu trong bảo vệ sản phẩm, trong bốc xếp, vận chuyển, lưu kho, và góp phần nâng tầm thương hiệu.\"""",
+            metadata={"topic_vn": "triết lý kinh doanh của Bao Bì Ánh Sáng (BBAS)", "topic_en": "Business Philosophy of Bao Bì Ánh Sáng (BBAS)"},
         ),
         Document(
             page_content="""Định nghĩa sứ mệnh của một doanh nghiệp: \"Là tuyên bố về mục đích của tổ chức, lý do tồn tại; là tuyên ngôn về mục đích cốt lõi và trọng tâm của tổ chức và thường không thay đổi theo thời gian\"""",
-            metadata={"topic": "định nghĩa sứ mệnh"},
+            metadata={"topic_vn": "định nghĩa sứ mệnh", "topic_en": "Definition of Mission"},
         ),
         Document(
-            page_content="""sứ mệnh của Bao Bì Ánh Sáng: \"Đồng hành đem lại sự thịnh vượng cho khách hàng thông qua các giải pháp bao bì, đóng gói tiên tiến và hiệu quả, không chỉ giúp bảo vệ an toàn sản phẩm, đem lại sự thuận tiện trong bốc xếp, vận chuyển, lưu kho, mà còn hỗ trợ đắc lực khách hàng nâng tầm hình ảnh thương hiệu.\"""",
-            metadata={"topic": "sứ mệnh của Bao Bì Ánh Sáng"},
+            page_content="""sứ mệnh của Bao Bì Ánh Sáng (BBAS): \"Đồng hành đem lại sự thịnh vượng cho khách hàng thông qua các giải pháp bao bì, đóng gói tiên tiến và hiệu quả, không chỉ giúp bảo vệ an toàn sản phẩm, đem lại sự thuận tiện trong bốc xếp, vận chuyển, lưu kho, mà còn hỗ trợ đắc lực khách hàng nâng tầm hình ảnh thương hiệu.\"""",
+            metadata={"topic_vn": "sứ mệnh của Bao Bì Ánh Sáng (BBAS)", "topic_en": "Mission of Bao Bì Ánh Sáng (BBAS)"},
         ),
         Document(
             page_content="""Định nghĩa tầm nhìn của một doanh nghiệp: \"Tầm nhìn là viễn cảnh, mục tiêu lâu dài, là ước muốn về tương lai xa của tổ chức;\"""",
-            metadata={"topic": "định nghĩa tầm nhìn"},
+            metadata={"topic_vn": "định nghĩa tầm nhìn", "topic_en": "Definition of Vision"},
         ),
         Document(
-            page_content="""tầm nhìn của Bao Bì Ánh Sáng: \"Trở thành doanh nghiệp hàng đầu Việt Nam và khu vực trong lĩnh vực bao bì, đóng gói, là lựa chọn ưu tiên nhất, tin cậy nhất của khách hàng trong lĩnh vực này.\"""",
-            metadata={"topic": "tầm nhìn của Bao Bì Ánh Sáng"},
+            page_content="""tầm nhìn của Bao Bì Ánh Sáng (BBAS): \"Trở thành doanh nghiệp hàng đầu Việt Nam và khu vực trong lĩnh vực bao bì, đóng gói, là lựa chọn ưu tiên nhất, tin cậy nhất của khách hàng trong lĩnh vực này.\"""",
+            metadata={"topic_vn": "tầm nhìn của Bao Bì Ánh Sáng (BBAS)", "topic_en": "Vision of Bao Bì Ánh Sáng (BBAS)"},
         ),
         # Document(
-        #     page_content="""những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng: \"
+        #     page_content="""những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng (BBAS) hoặc giá trị cốt lõi của Bao Bì Ánh Sáng (BBAS): \"
         #     TRÁCH NHIỆM: 'Trách nhiệm với công việc, Trách nhiệm với khách hàng, đối tác, nhà cung cấp, người lao động, Trách nhiệm với cổ đông, nhà đầu tư, cơ quan chức năng và các bên liên quan khác. Trách nhiệm với công ty, cấp trên, cấp dưới, đồng nghiệp. Trách nhiệm với mục tiêu, kế hoạch, thời hạn hoàn thành và các cam kết thực hiện. Trách nhiệm với lời nói và việc làm. Trách nhiệm với kết quả.'
         #     TẬN TÂM: 'Hiểu ý khách hàng, đối tác, đồng nghiệp, cấp trên, cấp dưới... Hợp tác, hỗ trợ, tư vấn, giải thích, xử lý đến nơi, đến chốn. Thể hiện tinh thần trách nhiệm cao. Tự giác, tự nguyện, nhiệt tình, vui vẻ, tận tụy. Lường trước khó khăn của đồng nghiệp, khách hàng để giúp họ tránh được khó khăn. Luôn đặt mục tiêu thách thức để chinh phục.'
         #     CAM KẾT: 'Cam kết với mục tiêu. Cam kết với deadline. Cam kết với khách hàng, đối tác, nhà cung cấp... Cam kết với nội bộ (cấp trên, cấp dưới, đồng nghiệp). Hứa và giữ lời hứa.'
@@ -113,10 +136,10 @@ def bbas_docs():
         #     ĐỒNG ĐỘI: 'Mục tiêu: Luôn nghĩ đến mục tiêu chung; Quá trình: Thống nhất và tôn trọng quá trình, quy trình, quy định, kế hoạch, deadline; Giao tiếp: Giao tiếp rõ ràng, hiệu quả, giúp đồng đội hiểu rõ ý mình và tìm cách hiểu rõ đồng đội; Tham gia: Tham gia nhiệt tình, vui vẻ, phân công rõ ràng trách nhiệm, không chồng chéo, không bỏ sót nhiệm vụ; Cam kết: Cam kết với mục tiêu và thể hiện tinh thần trách nhiệm cao; Tin tưởng vào đồng đội; Hợp tác, hỗ trợ lẫn nhau trong công việc, nhắc nhờ nhau thực hiện các cam kết; Thân thiện, gần gũi, chào hỏi vui vẻ; Cởi mở, trao đổi cởi mở, không để bụng những điều không hài lòng về nhau; Chân tình, thành thật và tình cảm với nhau, thiện chí, thể hiện ý tốt.'
         #     BIẾT ƠN: 'Biết ơn khách hàng. Biết ơn đối tác, nhà cung cấp. Biết ơn nhà đầu tư, cổ đông đồng hành. Biết ơn cấp trên, cấp dưới, đồng nghiệp. Biết ơn thiên nhiên, môi trường sống, cộng đồng. Biết ơn những hành động tốt dù rất nhỏ mà người khác làm cho mình.'
         #     \"""",
-        #     metadata={"topic": "những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng hoặc giá trị cốt lõi của Bao Bì Ánh Sáng"},
+        #     metadata={"topic": "những điều quan trọng, rất được coi trọng tại Bao Bì Ánh Sáng (BBAS) hoặc giá trị cốt lõi của Bao Bì Ánh Sáng (BBAS)"},
         # ),
         Document(
-            page_content="""Giá trị cốt lõi(GTCL) của Bao Bì Ánh Sáng: \"
+            page_content="""Giá trị cốt lõi(GTCL) của Bao Bì Ánh Sáng (BBAS): \"
             1. TRÁCH NHIỆM: 
             - Trách nhiệm với công việc
             - Trách nhiệm với khách hàng, đối tác, nhà cung cấp, người lao động
@@ -168,7 +191,7 @@ def bbas_docs():
             - Biết ơn thiên nhiên, môi trường sống, cộng đồng. 
             - Biết ơn những hành động tốt dù rất nhỏ mà người khác làm cho mình.'
             \"""",
-            metadata={"topic": "giá trị cốt lõi(GTCL) của Bao Bì Ánh Sáng"},
+            metadata={"topic_vn": "giá trị cốt lõi(GTCL) của Bao Bì Ánh Sáng (BBAS)", "topic_en": "Core Values of Bao Bì Ánh Sáng (BBAS)"},
         ),
         Document(
             page_content="""Vì sao Tổ chức cần có Giá Trị Cốt Lõi(GTCL)? \"
@@ -181,19 +204,19 @@ def bbas_docs():
             + Chúng tôi thực hiện đúng Cam kết với Khách hàng, Đối tác, Cổ đông và Nhân viên về các Thoả thuận đã được Thống nhất.
             Có nghĩa là khi làm ăn với công ty này, Khách hàng có thể nhận được Sự Đảm bảo 100%, Sự An tâm không chỉ là về chất lượng sản phẩm, về những cam kết ban đầu mà còn là chịu trách nhiệm cho đến khi Giải quyết được vấn đề của Khách hàng và đặc biệt là những sản phẩm cung cấp phải mang lại giá trị ứng dụng thực tế. Vì vậy, Giá trị Cốt lõi của Tổ chức thực sự là một Lời hứa, một "Lời hứa xây dựng nên Thương Hiệu", cần được thực hiện nghiêm túc, không chỉ một lần mà xuyên suốt mãi mãi trong quá trình Tồn tại của Tổ chức.
             \"""",
-            metadata={"topic": "Vì sao Tổ chức cần có Giá Trị Cốt Lõi(GTCL) ?"},
+            metadata={"topic_vn": "Vì sao Tổ chức cần có Giá Trị Cốt Lõi(GTCL) ?", "topic_en": "Why Does an Organization Need Core Values ?"},
         ),
         Document(
-            page_content="""lý tưởng của Bao Bì Ánh Sáng: \"
+            page_content="""lý tưởng của Bao Bì Ánh Sáng (BBAS): \"
             Dẫn dắt và giúp đỡ tất cả các thành viên trong công ty có một cuộc sống hạnh phúc và một cuộc đời ý nghĩa. Trong khả năng và tầm ảnh hưởng của doanh nghiệp, làm cho thế giới này trở nên tốt đẹp hơn.
             \"""",
-            metadata={"topic": "lý tưởng của Bao Bì Ánh Sáng"},
+            metadata={"topic_vn": "lý tưởng của Bao Bì Ánh Sáng (BBAS)", "topic_en": "Ideals of Bao Bì Ánh Sáng (BBAS)"},
         ),
         Document(
-            page_content="""trách nhiệm của Bao Bì Ánh Sáng: \"
+            page_content="""trách nhiệm của Bao Bì Ánh Sáng (BBAS): \"
             Mang lại cơm no áo ấm, đời sống sung túc cho toàn thể anh chị em công nhân viên. Xây dựng một môi trường làm việc hoàn thiện để khai phá và phát triển con người ở mức cao nhất. Dựa vào con người, tạo ra những sản phẩm và dịch vụ chất lượng nhằm đem đến giá trị thực sự cho khách hàng, cho cộng đồng, cho xã hội.
             \"""",
-            metadata={"topic": "trách nhiệm của Bao Bì Ánh Sáng"},
+            metadata={"topic_vn": "trách nhiệm của Bao Bì Ánh Sáng (BBAS)", "topic_en": "Responsibilities of Bao Bì Ánh Sáng (BBAS)"},
         ),
         Document(
             page_content="""lợi thế cạnh tranh từ năng lực cốt lõi(NLCL): \"
@@ -209,13 +232,13 @@ def bbas_docs():
             3. Tính bền vững: năng lực cốt lõi phải luôn được giữ vững và phát huy được hiệu quả trong
             suốt quá trình phát triển của tổ chức.
             \"""",
-            metadata={"topic": "lợi thế cạnh tranh từ năng lực cốt lõi(NLCL)"},
+            metadata={"topic_vn": "lợi thế cạnh tranh từ năng lực cốt lõi(NLCL)", "topic_en": "Competitive Advantage from Core Competencies "},
         ),
         Document(
             page_content="""khái niệm năng lực cốt lõi(NLCL): \"
             Năng lực cốt lõi là cơ sở tạo ra lợi thế cạnh tranh. Từ đó, định hướng phát triển và tăng trưởng lợi nhuận, góp phần tạo nên môi trường làm việc và mức thu nhập tốt hơn cho toàn thể nhân viên.
             \"""",
-            metadata={"topic": "khái niệm năng lực cốt lõi(NLCL)"},
+            metadata={"topic_vn": "khái niệm năng lực cốt lõi(NLCL)", "topic_en": "Concept of Core Competencies "},
         ),
         Document(
             page_content="""mối quan hệ giữa năng lực cốt lõi(NLCL) và giá trị cốt lõi(GTCL): \"
@@ -224,10 +247,10 @@ def bbas_docs():
             - Tầm nhìn là MỤC TIÊU mà doanh nghiệp muốn hướng đến.
             - Giá trị cốt lõi ("GTCL") là những nguyên tắc và niềm tin của tổ chức, là nền tảng định hướng toàn thể thành viên của tổ chức cùng nhau thực hiện và đạt được kết quả chung.
             \"""",
-            metadata={"topic": "khái niệm năng lực cốt lõi(NLCL)"},
+            metadata={"topic_vn": "mối quan hệ giữa năng lực cốt lõi(NLCL) và giá trị cốt lõi(GTCL)", "topic_en": "Relationship Between Core Competencies and Core Values"},
         ),
         Document(
-            page_content="""5 năng lực cốt lõi(NLCL) của Bao Bì Ánh Sáng: \"
+            page_content="""5 năng lực cốt lõi(NLCL) của Bao Bì Ánh Sáng (BBAS): \"
             1. Đa dạng mẫu mã - giá cả cạnh tranh:
             Đa dạng mẫu mã: 
             'Đa dạng loại hình sản phẩm và đa dạng phân khúc bán hàng. Liên tục cung cấp hàng loạt các loại sản phẩm đa dạng với nhiều kích thước, hình dạng và chất liệu khác nhau. Không chỉ sản xuất bao bì, định hướng đa dạng hóa nhiều sản phẩm hơn như túi xách, tấm cách nhiệt,...
@@ -257,7 +280,33 @@ def bbas_docs():
             Uy tín và trách nhiệm: 'Xây dựng uy tín thông qua việc luôn tuân thủ các cam kết. Hướng dẫn, đào tạo nhân viên tuân theo các quy tắc đạo đức, đảm bảo tính trung thực, không gian dối, luôn tuân thủ đúng các quy định và tiêu chuẩn. Đảm bảo các thông tin liên quan đến sản phẩm và quy trình sản xuất được cung cấp một cách minh bạch và chính xác cho khách hàng. Đồng thời, bảo đảm yếu tố bảo mật thông tin cho khách, tạo dựng sự tin tưởng và an tâm khi sử dụng sản phẩm của công ty.'
             Với năng lực cốt lõi "Tạo dựng sự an tâm bằng tinh thần phục vụ trách nhiệm và uy tín", công ty thể hiện sự cam kết, tận tâm phục vụ và tuân thủ các nguyên tắc đạo đức, từ đó, xây dựng một hình ảnh đáng tin cậy và uy tín trong ấn tượng của khách hàng về BBAS.
             \"""",
-            metadata={"topic": "5 năng lực cốt lõi(NLCL) của Bao Bì Ánh Sáng"},
+            metadata={"topic_vn": "5 năng lực cốt lõi(NLCL) của Bao Bì Ánh Sáng (BBAS)", "topic_en": "5 Core Competencies of Bao Bì Ánh Sáng (BBAS)"},
         ),
     ]
-    return docs
+    metadata_field_info = [
+        AttributeInfo(
+            name="topic_vn",
+            description="Topic of user's query in Vietnamese",
+            type="string",
+        ),
+        AttributeInfo(
+            name="topic",
+            description="Topic of user's query in English",
+            type="string",
+        ),
+    ]
+    return docs, metadata_field_info
+
+def vn_2_en(text):
+    llm = ChatOpenAI(model="gpt-4o-mini-2024-07-18", temperature=0)
+    template = """
+    Translate the following Vietnamese phrases to English:
+
+    {phrases}
+
+    Only translate the phrases and retain any specific names like 'Bao Bì Ánh Sáng' or 'BBAS'.
+    """
+    prompt = ChatPromptTemplate.from_template(template)
+    chain = prompt | llm
+    result = chain.invoke({"phrases": text})
+    return result.content

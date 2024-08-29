@@ -15,7 +15,6 @@ from langchain_community.vectorstores import Chroma
 from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.retrievers.document_compressors import LLMChainFilter
 from langchain.retrievers import ContextualCompressionRetriever
@@ -58,7 +57,7 @@ class AIAssistant:
                     Bạn ở đây để trả lời tất cả các câu hỏi về văn hóa doanh nghiệp với các tài liệu bạn được cung cấp. 
                     Tài liệu được cung cấp: {doc} 
                     Nếu tài liệu được cung cấp là "Không có tài liệu liên quan đến câu hỏi hoặc yêu cầu này." hoặc các tài liệu được cung cấp không liên quan đến câu hỏi hoặc yêu cầu thì trả lời là \"Tôi không được cung cấp thông tin để trả lời câu hỏi này\"
-                    Lưu ý: CÁC CHỈ TRẢ LỜI CÁC CÂU HỎI HOẶC YÊU CẦU ĐƯỢC HỎI, KHÔNG THỪA, KHÔNG THIẾU VÀ KHÔNG TỰ Ý TÓM TẮT HAY RÚT NGẮN CÂU TRẢ LỜI
+                    Lưu ý: CÁC CHỈ TRẢ LỜI CÁC CÂU HỎI HOẶC YÊU CẦU ĐƯỢC HỎI. CÁC ĐỊNH NGHĨA CŨNG NHƯ CÁC THÔNG ĐIỆP NÊN GIỮ NGUYÊN, KHÔNG THAY ĐỔI. KHÔNG RÚT GỌN TÀI LIỆU ĐỂ TRẢ LỜI.
                     Câu hỏi:
                     """,
                 ),
@@ -68,15 +67,8 @@ class AIAssistant:
         return prompt
     
     def selfquerying_retriever(self):
-        docs = bbas_docs()
+        docs, metadata_field_info = bbas_docs()
         vectorstore = Chroma.from_documents(docs, self.embedding)
-        metadata_field_info = [
-            AttributeInfo(
-                name="topic",
-                description="Topic of user's query",
-                type="string",
-            ),
-        ]
         document_content_description = "Content of each topic"
         retriever = SelfQueryRetriever.from_llm(
             self.model,
@@ -121,18 +113,19 @@ class AIAssistant:
         
     
     def docs_gen(self, question):
+        en_question = vn_2_en(question)
+        print(en_question)
         try:
             _filter = LLMChainFilter.from_llm(self.model)
             compression_retriever = ContextualCompressionRetriever(
                 base_compressor=_filter, base_retriever=self.retriever
             )
-            docs = compression_retriever.invoke(question)
+            docs = compression_retriever.invoke(en_question)
         except Exception as e:
             docs = [Document(page_content="Không có tài liệu liên quan đến câu hỏi này.", metadata={})]
         return "\n\n".join(doc.page_content for doc in docs)
 
     def invoke(self, question: str, session_id: str) -> str:
-        config = {"configurable": {"session_id": session_id}}
         trimmer = self.llm_memory()
         prompt = self.prompt_gen()
         chain = (
@@ -149,6 +142,7 @@ class AIAssistant:
         docs = self.docs_gen(question)
         print(docs)
         print("/////////////////////////////////////////////")
+        config = {"configurable": {"session_id": session_id}}
         result = with_message_history.invoke(
             {
                 "question": [HumanMessage(content=question)],
