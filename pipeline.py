@@ -114,7 +114,6 @@ class AIAssistant:
     
     def docs_gen(self, question):
         en_question = vn_2_en(question)
-        print(en_question)
         try:
             _filter = LLMChainFilter.from_llm(self.model)
             compression_retriever = ContextualCompressionRetriever(
