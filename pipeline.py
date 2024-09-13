@@ -129,6 +129,7 @@ class AIAssistant:
         prompt = self.prompt_gen()
         chain = (
             RunnablePassthrough.assign(messages=itemgetter("question") | trimmer)
+            | (lambda output: (output.update({'question': output['messages']}), output)[-1])
             | prompt
             | self.model
             | self.parser
@@ -157,6 +158,7 @@ class AIAssistant:
         prompt = self.prompt_gen()
         chain = (
             RunnablePassthrough.assign(messages=itemgetter("question") | trimmer)
+            | (lambda output: (output.update({'question': output['messages']}), output)[-1])
             | prompt
             | self.model
             | self.parser
